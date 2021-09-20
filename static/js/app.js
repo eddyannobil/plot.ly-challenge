@@ -23,7 +23,12 @@ function optionChanged(selectedID){
    
    // Filter Metadata for selected ID from dropdown
    const idMetadata = data.metadata.filter(item=> (item.id == selectedID));
-    
+      // {
+      //    console.log("------------------------")
+      //    console.log(item);
+      //    console.log(item.id);
+         
+      // });
    // Check the metadata loaded for the selected ID
    console.log(idMetadata);
    
@@ -54,7 +59,10 @@ function optionChanged(selectedID){
    var otuLabels = idSample[0].otu_labels
    otuLabels = otuLabels.reverse();
 
-
+   // // Check values
+   //  console.log(sampleValue);
+   //  console.log(otuID);
+   //  console.log(otuLabels);
 
    // Y axis of bar chart
    const yAxis = otuID.map(item => 'OTU' + " " + item);
@@ -62,8 +70,8 @@ function optionChanged(selectedID){
    
    // Define the layout and trace object, edit color and orientation
       const trace = {
-      y: yAxis,
       x: sampleValue,
+      y: yAxis,
       type: 'bar',
       orientation: "h",
       text:  otuLabels,
@@ -83,6 +91,38 @@ function optionChanged(selectedID){
       // Plot using Plotly
       Plotly.newPlot('bar', [trace], layout,  {responsive: true});    
       
+// BUBBLE CHART
+
+// Remove Sample value and otuID from individual
+var sampleValue1 =idSample[0].sample_values;
+var otuID1= idSample[0].otu_ids;
+
+// Define the layout and trace object, edit color and orientation
+const trace1 = {
+   x: otuID1,
+   y: sampleValue1,
+   mode: 'markers',
+   marker: {
+     color: otuID1,
+     
+     size: sampleValue1
+   }
+ },
+
+ layout1 = {
+   title: '<b>Bubble Chart For Each Sample</b>',
+   xaxis: {title: 'OTU ID'},
+   yaxis: {title: 'Number of Samples Collected'},
+   showlegend: false,
+   height: 800,
+   width: 1800
+   };
+   
+// Plot using Plotly
+Plotly.newPlot('bubble', [trace1], layout1);
+
+});
+}
 
 // Initial test starts at ID 940
 optionChanged(940);
@@ -90,5 +130,5 @@ optionChanged(940);
 // Event on change takes the value and calls the function during dropdown selection
 d3.select("#selDataset").on('change',() => {
 optionChanged(d3.event.target.value);
-})
-})};
+
+});
