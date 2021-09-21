@@ -76,7 +76,7 @@ function optionChanged(selectedID){
       orientation: "h",
       text:  otuLabels,
       marker: {
-         color: 'rgb(154, 140, 152)',
+         color: 'rgb(25,120,181)',
          line: {
             width: 3
         }
@@ -121,9 +121,52 @@ const trace1 = {
 // Plot using Plotly
 Plotly.newPlot('bubble', [trace1], layout1);
 
-});
-}
 
+
+   // BONUS: GAUGE CHART
+
+ // Gauge Chart to plot weekly washing frequency 
+ const guageDisplay = d3.select("#gauge");
+ guageDisplay.html(""); 
+ const washFreq = idMetadata[0].wfreq;
+ 
+ const guageData = [
+    {
+      domain: { x: [0, 1], y: [0, 1] },
+      value: washFreq,
+      title: { text: "<b>Belly Button Washing Frequency </b><br> (Scrubs Per Week)" },
+      type: "indicator",
+      mode: "gauge+number",     
+       gauge: {
+       axis: { range: [0,9] },
+       bar: { color: "#f2e9e4" },
+       steps: [
+          { range: [0, 1], color: "#F7F2EC" },
+          { range: [1, 2], color: "#F3F0E5" },
+          { range: [2, 3], color: "#E9E7C9" },
+          { range: [3, 4], color: "#E5E9B1" },
+          { range: [4, 5], color: "#D5E595" },
+          { range: [5, 6], color: "#B7CD8B" },
+          { range: [6, 7], color: "#87C080" },
+          { range: [7, 8], color: "#85BC8B" },
+          { range: [8, 9], color: "#80B586" }
+                
+        ],
+       threshold: {
+          value: washFreq
+        }
+      }
+    }
+  ]; 
+  const gaugeLayout = {  width: 600, 
+                   height: 400, 
+                   margin: { t: 0, b: 0 }, 
+                    };
+ 
+ // Plot using Plotly
+  Plotly.newPlot('gauge', guageData, gaugeLayout);
+ });
+}
 // Initial test starts at ID 940
 optionChanged(940);
 
